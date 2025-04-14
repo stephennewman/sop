@@ -12,27 +12,29 @@ export function createClient() {
     {
       cookies: {
         get(name: string) {
-          // @ts-ignore Property 'get' does exist on the resolved type
+          // @ts-expect-error Property 'get' does exist on the resolved type
           return cookieStore.get(name)?.value
         },
         set(name: string, value: string, options: CookieOptions) {
           try {
-            // @ts-ignore Property 'set' does exist on the resolved type
+            // @ts-expect-error Property 'set' does exist on the resolved type
             cookieStore.set({ name, value, ...options })
           } catch (error) {
             // The `set` method was called from a Server Component.
-            // This can be ignored if you have middleware refreshing
-            // user sessions.
+            // This can be ignored if you have middleware refreshing sessions.
+            // We'll log the error for debugging purposes.
+            console.error('Error setting cookie from Server Component/Action:', error)
           }
         },
         remove(name: string, options: CookieOptions) {
           try {
-            // @ts-ignore Property 'set' does exist on the resolved type (used for removal)
+            // @ts-expect-error Property 'set' does exist on the resolved type (used for removal)
             cookieStore.set({ name, value: '', ...options })
           } catch (error) {
             // The `delete` method was called from a Server Component.
-            // This can be ignored if you have middleware refreshing
-            // user sessions.
+            // This can be ignored if you have middleware refreshing sessions.
+            // We'll log the error for debugging purposes.
+            console.error('Error removing cookie from Server Component/Action:', error)
           }
         },
       },
