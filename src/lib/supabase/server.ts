@@ -12,10 +12,12 @@ export function createClient() {
     {
       cookies: {
         get(name: string) {
+          // @ts-ignore Property 'get' does exist on the resolved type
           return cookieStore.get(name)?.value
         },
         set(name: string, value: string, options: CookieOptions) {
           try {
+            // @ts-ignore Property 'set' does exist on the resolved type
             cookieStore.set({ name, value, ...options })
           } catch (error) {
             // The `set` method was called from a Server Component.
@@ -25,6 +27,7 @@ export function createClient() {
         },
         remove(name: string, options: CookieOptions) {
           try {
+            // @ts-ignore Property 'set' does exist on the resolved type (used for removal)
             cookieStore.set({ name, value: '', ...options })
           } catch (error) {
             // The `delete` method was called from a Server Component.
